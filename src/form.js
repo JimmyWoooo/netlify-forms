@@ -14,36 +14,37 @@ const Form  = () =>{
     })
 
     const handleSubmit = e => {
-      fetch("/", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: encode({ "form-name": "contact", ...state })
-      })
-        .then(() => alert("Success!"))
-        .catch(error => alert(error));
-
       e.preventDefault();
+
+  const myForm = e.target;
+  const formData = new FormData(myForm);
+  
+  fetch("/", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams(formData).toString(),
+  })
+    .then(() => console.log("Form successfully submitted"))
+    .catch((error) => alert(error));
     };
 
     const handleChange = e => setState({ [e.target.name]: e.target.value });
-
-    const { name, email, message } = state;
 
     return(
       <form onSubmit={handleSubmit}>
       <p>
         <label>
-          Your Name: <input type="text" name="name" value={name} onChange={handleChange} />
+          Your Name: <input type="text" name="name" value={state.name} onChange={handleChange} />
         </label>
       </p>
       <p>
         <label>
-          Your Email: <input type="email" name="email" value={email} onChange={handleChange} />
+          Your Email: <input type="email" name="email" value={state.email} onChange={handleChange} />
         </label>
       </p>
       <p>
         <label>
-          Message: <textarea name="message" value={message} onChange={handleChange} />
+          Message: <textarea name="message" value={state.message} onChange={handleChange} />
         </label>
       </p>
       <p>
