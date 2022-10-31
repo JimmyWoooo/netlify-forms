@@ -7,66 +7,47 @@ function encode(data) {
   }
 
 const Form  = () =>{
-    const [state, setState] = useState({})
-
-  const handleChange = (e) => {
-    setState({ ...state, [e.target.name]: e.target.value })
-  }
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    const form = e.target
-    fetch('/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: encode({
-        'form-name': form.getAttribute('name'),
-        ...state,
-      }),
+    const [state, setState] = useState({
+      name: "",
+      email: "",
+      message: ""
     })
-      .then(() => console.log('sent'))
-      .catch((error) => alert(error))
-  }
+
+    handleSubmit = e => {
+      fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: encode({ "form-name": "contact", ...state })
+      })
+        .then(() => alert("Success!"))
+        .catch(error => alert(error));
+
+      e.preventDefault();
+    };
+
+    handleChange = e => setState({ [e.target.name]: e.target.value });
+
     return(
-        <form
-        name="contact"
-        method="post"
-        data-netlify="true"
-        data-netlify-honeypot="bot-field"
-        onSubmit={handleSubmit}
-      >
-        {/* The `form-name` hidden field is required to support form submissions without JavaScript */}
-        <input type="hidden" name="form-name" value="contact" />
-        <p hidden>
-          <label>
-            Don’t fill this out: <input name="bot-field" onChange={handleChange} />
-          </label>
-        </p>
-        <p>
-          <label>
-            Your name:
-            <br />
-            <input type="text" name="name" onChange={handleChange} />
-          </label>
-        </p>
-        <p>
-          <label>
-            Your email:
-            <br />
-            <input type="email" name="email" onChange={handleChange} />
-          </label>
-        </p>
-        <p>
-          <label>
-            Message:
-            <br />
-            <textarea name="message" onChange={handleChange} />
-          </label>
-        </p>
-        <p>
-          <button type="submit">Send</button>
-        </p>
-      </form>
+      <form onSubmit={handleSubmit}>
+      <p>
+        <label>
+          Your Name: <input type="text" name="name" value={name} onChange={handleChange} />
+        </label>
+      </p>
+      <p>
+        <label>
+          Your Email: <input type="email" name="email" value={email} onChange={handleChange} />
+        </label>
+      </p>
+      <p>
+        <label>
+          Message: <textarea name="message" value={message} onChange={handleChange} />
+        </label>
+      </p>
+      <p>
+        <button type="submit">Send</button>
+      </p>
+    </form>
     )
 }
 
