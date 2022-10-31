@@ -30,7 +30,7 @@ const Form  = () =>{
     const { name, email, message } = state;
 
     return(
-      <form onSubmit={handleSubmit} netlify netlify-honeypot="bot-field">
+      <form netlify netlify-honeypot="bot-field" method="POST">
       <p>
         <label>
           Your Name: <input type="text" name="name" value={name} onChange={handleChange} />
