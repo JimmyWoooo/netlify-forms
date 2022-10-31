@@ -14,18 +14,15 @@ const Form  = () =>{
     })
 
     const handleSubmit = e => {
-      e.preventDefault();
+      fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: encode({ "form-name": "contact", ...state })
+      })
+        .then(() => alert("Success!"))
+        .catch(error => alert(error));
 
-  const myForm = e.target;
-  const formData = new FormData(myForm);
-  
-  fetch("/", {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams(formData).toString(),
-  })
-    .then(() => console.log("Form successfully submitted"))
-    .catch((error) => alert(error));
+      e.preventDefault();
     };
 
     const handleChange = e => setState({ [e.target.name]: e.target.value });
