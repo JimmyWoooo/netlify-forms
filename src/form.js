@@ -13,7 +13,7 @@ const Form  = () =>{
       message: ""
     })
 
-    handleSubmit = e => {
+    const handleSubmit = e => {
       fetch("/", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -25,7 +25,7 @@ const Form  = () =>{
       e.preventDefault();
     };
 
-    handleChange = e => setState({ [e.target.name]: e.target.value });
+    const handleChange = e => setState({ [e.target.name]: e.target.value });
 
     return(
       <form onSubmit={handleSubmit}>
